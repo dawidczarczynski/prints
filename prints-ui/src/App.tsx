@@ -1,9 +1,15 @@
 import React from 'react';
+import ImagesListView from './views/ImagesListView';
+
+import './app.css';
 
 function App() {
   return (
     <div className="App">
-        Prints UI
+        <div className="top-bar">
+          Prints UI
+        </div>
+        <ImagesListView />
     </div>
   );
 }
