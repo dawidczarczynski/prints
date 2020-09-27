@@ -1,5 +1,8 @@
 import React, { useState, useEffect } from 'react';
+import { Card, CardBody, CardTitle, Spinner } from 'reactstrap';
 import { loadBlobFromFile } from '../core/fileLoader';
+
+import './imagePreview.css';
 
 interface ImagePreviewProps {
   imageFile: File
@@ -20,10 +23,15 @@ export default function ImagePreview(props: ImagePreviewProps) {
   }, [ imageFile ]);
 
   return (
-    <>
-      {loading && <p>Loading...</p>}
-      {image && <img src={image} width="300" alt="Test" />}
-    </>
+    <Card>
+      <CardBody>
+        <div className="image-container">
+          {loading && <Spinner color="primary" />}
+          {image && <img src={image} width="300" alt="Test" />} 
+        </div>
+        <CardTitle>{imageFile.name}</CardTitle>
+      </CardBody>
+    </Card>
   );
 
 }

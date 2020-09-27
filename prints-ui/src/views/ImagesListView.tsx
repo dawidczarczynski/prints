@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
 import FilesInput from '../components/FilesInput';
 import ImagePreview from '../components/ImagePreview';
+import ImagesGrid from '../components/ImagesGrid';
 
 import './imagesListView.css';
 
@@ -14,9 +15,9 @@ export default function ImagesListView() {
       <div className="files-input-container">
         <FilesInput onFilesSelect={addImages} />
       </div>
-      <div className="images">
+      <ImagesGrid>
         {images.map(imageFile => <ImagePreview imageFile={imageFile} />)}
-      </div>
+      </ImagesGrid>
     </>
   );
 
