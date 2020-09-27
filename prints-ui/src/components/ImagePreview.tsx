@@ -16,7 +16,7 @@ export default function ImagePreview(props: ImagePreviewProps) {
 
   useEffect(() => {
     setLoading(true);
-    image.getUrl()
+    image.thumbnail
       .then(setImageUrl)
       .catch(console.error)
       .finally(() => setLoading(false));
@@ -27,9 +27,9 @@ export default function ImagePreview(props: ImagePreviewProps) {
       <CardBody>
         <div className="image-container">
           {loading && <Spinner color="primary" />}
-          {imageUrl && <img src={imageUrl} width="300" alt={image.getName()} />} 
+          {imageUrl && <img src={imageUrl} width="300" alt={image.name} />} 
         </div>
-        <CardTitle>{image.getName()}</CardTitle>
+        <CardTitle>{image.name}</CardTitle>
       </CardBody>
     </Card>
   );

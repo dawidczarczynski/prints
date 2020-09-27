@@ -1,9 +1,10 @@
 import React, { useState } from 'react';
+import { ImageContainer } from '../core/image/ImageContainer';
+import { ImageService } from '../core/image/ImageService';
+
 import FilesInput from '../components/FilesInput';
 import ImagePreview from '../components/ImagePreview';
 import ImagesGrid from '../components/ImagesGrid';
-import { ImageContainer } from '../core/image/ImageContainer';
-import { ImageService } from '../core/image/ImageServiceImpl';
 
 import './imagesListView.css';
 

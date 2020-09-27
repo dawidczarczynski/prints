@@ -20,10 +20,10 @@ export default function ImagesGrid(props: ImagesGridProps) {
 
     return (
        <>
-        {rows.map(columns => 
-            <div className="row mb-4">
-                {columns.map(column => 
-                    <div className={`col-${COLUMN_SIZE}`}>{column}</div>
+        {rows.map((columns, rowIndex) => 
+            <div className="row mb-4" key={`row-${rowIndex}`}>
+                {columns.map((column, colIndex) => 
+                    <div className={`col-${COLUMN_SIZE}`} key={`column-${rowIndex}${colIndex}`}>{column}</div>
                 )}
             </div>    
         )}
