@@ -1,35 +1,35 @@
 import React, { useState, useEffect } from 'react';
 import { Card, CardBody, CardTitle, Spinner } from 'reactstrap';
-import { loadBlobFromFile } from '../core/fileLoader';
+import { ImageContainer } from '../core/image/ImageContainer';
 
 import './imagePreview.css';
 
 interface ImagePreviewProps {
-  imageFile: File
+  image: ImageContainer
 }
 
 export default function ImagePreview(props: ImagePreviewProps) {
 
-  const { imageFile } = props;
+  const { image } = props;
   const [ loading, setLoading ] = useState<boolean>();
-  const [ image, setImage ] = useState<string>();
+  const [ imageUrl, setImageUrl ] = useState<string>();
 
   useEffect(() => {
     setLoading(true);
-    loadBlobFromFile(imageFile)
-      .then(setImage)
+    image.getUrl()
+      .then(setImageUrl)
       .catch(console.error)
       .finally(() => setLoading(false));
-  }, [ imageFile ]);
+  }, [ image ]);
 
   return (
     <Card>
       <CardBody>
         <div className="image-container">
           {loading && <Spinner color="primary" />}
-          {image && <img src={image} width="300" alt="Test" />} 
+          {imageUrl && <img src={imageUrl} width="300" alt={image.getName()} />} 
         </div>
-        <CardTitle>{imageFile.name}</CardTitle>
+        <CardTitle>{image.getName()}</CardTitle>
       </CardBody>
     </Card>
   );

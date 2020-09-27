@@ -1,4 +1,4 @@
-import React, { ChangeEvent, createRef } from 'react';
+import React, { ChangeEvent, useRef } from 'react';
 import { Button } from 'reactstrap';
 
 interface FilesInputProps {
@@ -8,7 +8,7 @@ interface FilesInputProps {
 export default function FilesInput(props: FilesInputProps) {
 
   const { onFilesSelect } = props;
-  const fileInputRef = createRef<HTMLInputElement>()
+  const fileInputRef = useRef<HTMLInputElement>(null);
 
   const handleInputClick = () => fileInputRef.current?.click();
 

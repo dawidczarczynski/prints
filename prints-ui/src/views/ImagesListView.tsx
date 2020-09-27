@@ -2,13 +2,24 @@ import React, { useState } from 'react';
 import FilesInput from '../components/FilesInput';
 import ImagePreview from '../components/ImagePreview';
 import ImagesGrid from '../components/ImagesGrid';
+import { ImageContainer } from '../core/image/ImageContainer';
+import { ImageService } from '../core/image/ImageServiceImpl';
 
 import './imagesListView.css';
 
-export default function ImagesListView() {
+interface ImageListViewProps {
+  imageService: ImageService;
+}
 
-  const [ images, setImages ] = useState<File[]>([]);
-  const addImages = (selectedFiles: File[]) => setImages([ ...images, ...selectedFiles ]);
+export default function ImagesListView(props: ImageListViewProps) {
+
+  const { imageService } = props;
+
+  const [ images, setImages ] = useState<ImageContainer[]>([]);
+  const addImages = (selectedFiles: File[]) => setImages([
+    ...images, 
+    ...imageService.loadImages(selectedFiles)
+  ]);
 
   return (
     <>
@@ -16,7 +27,7 @@ export default function ImagesListView() {
         <FilesInput onFilesSelect={addImages} />
       </div>
       <ImagesGrid>
-        {images.map(imageFile => <ImagePreview imageFile={imageFile} />)}
+        {images.map(image => <ImagePreview key={image.id} image={image} />)}
       </ImagesGrid>
     </>
   );

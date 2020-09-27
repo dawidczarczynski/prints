@@ -4,6 +4,9 @@ import { Navbar, NavbarBrand } from 'reactstrap';
 import ImagesListView from './views/ImagesListView';
 
 import './app.css';
+import { ImageService, ImageServiceImpl } from './core/image/ImageServiceImpl';
+
+const imageService: ImageService = new ImageServiceImpl();
 
 function App() {
   return (
@@ -12,7 +15,7 @@ function App() {
           <NavbarBrand href="/">Prints UI</NavbarBrand>
         </Navbar>
         <div className="container-fluid py-3">
-          <ImagesListView />
+          <ImagesListView imageService={imageService} />
         </div>
     </>
   );
