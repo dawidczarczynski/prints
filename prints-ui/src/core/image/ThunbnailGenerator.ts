@@ -14,7 +14,7 @@ export class ThumbnailGeneratorImpl implements ThumbnailGenerator {
         concurrency: 4
     });
 
-    public async getThumbnail(input: Blob): Promise<string> {
+    public async getThumbnail(input: File): Promise<string> {
         try {
             const image = await this.readBlobAsImage(input);
             const thumbnail = await this.pica.resize(image, this.getCanvas(image.width, image.height));
@@ -29,7 +29,8 @@ export class ThumbnailGeneratorImpl implements ThumbnailGenerator {
         }
     }
 
-    private readBlobAsImage(blob: Blob): Promise<HTMLImageElement> {
+    private readBlobAsImage(blob: File): Promise<HTMLImageElement> {
+        console.log('Reading file', blob.name);
         const image = new Image();
 
         return new Promise((resolve, reject) => {

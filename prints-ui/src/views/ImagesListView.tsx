@@ -19,8 +19,10 @@ export default function ImagesListView(props: ImageListViewProps) {
   const [ images, setImages ] = useState<ImageContainer[]>([]);
   const addImages = (selectedFiles: File[]) => setImages([
     ...images, 
-    ...imageService.loadImages(selectedFiles)
+    ...imageService.getImages(selectedFiles)
   ]);
+
+  const loadThumbnail = (image: ImageContainer) => imageService.loadThumbnail(image);
 
   return (
     <>
@@ -28,7 +30,12 @@ export default function ImagesListView(props: ImageListViewProps) {
         <FilesInput onFilesSelect={addImages} />
       </div>
       <ImagesGrid>
-        {images.map(image => <ImagePreview key={image.id} image={image} />)}
+        {images.map(image => 
+          <ImagePreview 
+            key={image.id} 
+            image={image} 
+            loadThumbnail={() => loadThumbnail(image)} />
+        )}
       </ImagesGrid>
     </>
   );
