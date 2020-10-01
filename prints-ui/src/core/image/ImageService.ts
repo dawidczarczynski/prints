@@ -2,7 +2,7 @@ import { Observable, of, from } from "rxjs";
 import { tap } from "rxjs/operators";
 
 import { ImageContainer } from "./ImageContainer";
-import { QueueProcessor } from "./QueueProcessor";
+import { QueueProcessor } from "../common/QueueProcessor";
 import { ThumbnailGeneratorImpl } from "./ThunbnailGenerator";
 
 export interface ImageService {

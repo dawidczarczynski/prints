@@ -1,5 +1,4 @@
 import React, { useState, useEffect } from 'react';
-import { useInView } from 'react-intersection-observer';
 import { Card, CardBody, CardTitle, Spinner } from 'reactstrap';
 import { Observable } from 'rxjs';
 import { first } from 'rxjs/operators';
@@ -10,7 +9,7 @@ import './imagePreview.css';
 
 interface ImagePreviewProps {
   image: ImageContainer;
-  loadThumbnail: () => Observable<string>
+  loadThumbnail: () => Observable<string>;
 }
 
 export default function ImagePreview(props: ImagePreviewProps) {
@@ -18,10 +17,8 @@ export default function ImagePreview(props: ImagePreviewProps) {
   const { image, loadThumbnail } = props;
   const [ loading, setLoading ] = useState<boolean>(false);
   const [ imageUrl, setImageUrl ] = useState<string>();
-  const [ ref, inView ] = useInView();
 
   useEffect(() => {
-    if (inView) {
       setLoading(true);
       loadThumbnail()
         .pipe(first())
@@ -29,12 +26,10 @@ export default function ImagePreview(props: ImagePreviewProps) {
           setImageUrl(thumbnail);
           setLoading(false)
         });
-    }
-  }, [ loadThumbnail, inView ]);
+  }, [ loadThumbnail ]);
 
   return (
-    <div style={{height: '300px', overflow: 'hidden'}} ref={ref}>
-      { inView ? <Card>
+     <Card>
         <CardBody>
           <div className="image-container">
             {loading && <Spinner color="primary" />}
@@ -43,8 +38,6 @@ export default function ImagePreview(props: ImagePreviewProps) {
           <CardTitle>{image.name}</CardTitle>
         </CardBody>
       </Card>
-      : null }
-    </div>
   );
 
 }

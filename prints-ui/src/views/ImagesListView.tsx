@@ -7,6 +7,7 @@ import ImagePreview from '../components/ImagePreview';
 import ImagesGrid from '../components/ImagesGrid';
 
 import './imagesListView.css';
+import VirtualScrollChild from '../common/VirtualScrollChild';
 
 interface ImageListViewProps {
   imageService: ImageService;
@@ -31,10 +32,11 @@ export default function ImagesListView(props: ImageListViewProps) {
       </div>
       <ImagesGrid>
         {images.map(image => 
-          <ImagePreview 
-            key={image.id} 
-            image={image} 
-            loadThumbnail={() => loadThumbnail(image)} />
+          <VirtualScrollChild key={image.id} height={300}>
+            <ImagePreview 
+              image={image} 
+              loadThumbnail={() => loadThumbnail(image)} />
+          </VirtualScrollChild>
         )}
       </ImagesGrid>
     </>

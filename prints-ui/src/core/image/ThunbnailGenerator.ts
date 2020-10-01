@@ -1,4 +1,4 @@
-import pica from 'pica';
+import { Resizer } from "./Resizer";
 
 export interface ThumbnailGenerator {
     getThumbnail(blob: Blob): Promise<string>
@@ -9,20 +9,16 @@ const THUMB_HEIGHT = 300;
 
 export class ThumbnailGeneratorImpl implements ThumbnailGenerator {
 
-    private readonly pica = pica({
-        features: ['all'],
-        concurrency: 4
-    });
+    private readonly resizer = new Resizer();
 
     public async getThumbnail(input: File): Promise<string> {
         try {
             const image = await this.readBlobAsImage(input);
-            const thumbnail = await this.pica.resize(image, this.getCanvas(image.width, image.height));
-            const blob = await this.pica.toBlob(thumbnail, 'image/jpeg', 0.9);
+            const resized = await this.getResizedBlob(image);
             
             this.clearImage(image);
 
-            return URL.createObjectURL(blob);
+            return URL.createObjectURL(resized);
         } catch (ex) {
             console.error('Thumbnail generation error', ex.message);
             throw new Error('Cannot generate thumbnail');
@@ -38,6 +34,13 @@ export class ThumbnailGeneratorImpl implements ThumbnailGenerator {
             image.onload = () => resolve(image);
             image.src = URL.createObjectURL(blob);
         });
+    }
+
+    private getResizedBlob(image: HTMLImageElement): Promise<Blob> {
+        return this.resizer.resize(
+            image, 
+            this.getCanvas(image.width, image.height)
+        );
     }
 
     private clearImage(image: HTMLImageElement): void {
