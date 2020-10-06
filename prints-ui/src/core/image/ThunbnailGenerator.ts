@@ -1,4 +1,5 @@
-import { Resizer } from "./Resizer";
+import { UrlGenerator, UrlGeneratorImpl } from "../common/UrlGenerator";
+import { Resizer, ResizerImpl } from "./Resizer";
 
 export interface ThumbnailGenerator {
     getThumbnail(blob: Blob): Promise<string>
@@ -9,7 +10,8 @@ const THUMB_HEIGHT = 300;
 
 export class ThumbnailGeneratorImpl implements ThumbnailGenerator {
 
-    private readonly resizer = new Resizer();
+    private readonly resizer: Resizer = new ResizerImpl();
+    private readonly url: UrlGenerator = new UrlGeneratorImpl();
 
     public async getThumbnail(input: File): Promise<string> {
         try {
@@ -18,7 +20,7 @@ export class ThumbnailGeneratorImpl implements ThumbnailGenerator {
             
             this.clearImage(image);
 
-            return URL.createObjectURL(resized);
+            return this.url.generateUrlforBlob(resized);
         } catch (ex) {
             console.error('Thumbnail generation error', ex.message);
             throw new Error('Cannot generate thumbnail');
@@ -44,17 +46,13 @@ export class ThumbnailGeneratorImpl implements ThumbnailGenerator {
     }
 
     private clearImage(image: HTMLImageElement): void {
-        URL.revokeObjectURL(image.src);
+        this.url.revokeUrl(image.src);
     } 
 
-    private getCanvas(imageWidth: number, imageHeight: number): HTMLCanvasElement {
+    private getCanvas(imageWidth: number, imageHeight: number): OffscreenCanvas {
         const [ width, height ] = this.getThumbnailSize(imageWidth, imageHeight);
 
-        const canvas = document.createElement('canvas');
-        canvas.width = width;
-        canvas.height = height;
-
-        return canvas;
+        return new OffscreenCanvas(width, height);
     }
  
     private getThumbnailSize(width: number, height: number): number[] {
