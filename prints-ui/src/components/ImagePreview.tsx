@@ -3,7 +3,7 @@ import { Card, CardBody, CardTitle, Spinner } from 'reactstrap';
 import { Observable } from 'rxjs';
 import { first } from 'rxjs/operators';
 
-import { ImageContainer } from '../core/image/ImageContainer';
+import { ImageContainer } from '../core/model/ImageContainer';
 
 import './imagePreview.css';
 

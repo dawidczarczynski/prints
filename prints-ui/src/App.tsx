@@ -1,12 +1,13 @@
 import React from 'react';
 import { Navbar, NavbarBrand } from 'reactstrap';
 
-import { ImageService, ImageServiceImpl } from './core/image/ImageService';
-import ImagesListView from './views/ImagesListView';
+import { ImageService } from './core/image/ImageService';
+import { container, TYPES } from './core/ioc';
 
+import ImagesListView from './views/ImagesListView';
 import './app.css';
 
-const imageService: ImageService = new ImageServiceImpl();
+const imageService: ImageService = container.resolve<ImageService>(TYPES.ImageService);
 
 function App() {
   return (

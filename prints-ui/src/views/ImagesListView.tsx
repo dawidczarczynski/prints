@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { ImageContainer } from '../core/image/ImageContainer';
+import { ImageContainer } from '../core/model/ImageContainer';
 import { ImageService } from '../core/image/ImageService';
 
 import FilesInput from '../components/FilesInput';

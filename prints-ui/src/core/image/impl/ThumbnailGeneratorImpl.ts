@@ -1,17 +1,20 @@
-import { UrlGenerator, UrlGeneratorImpl } from "../common/UrlGenerator";
-import { Resizer, ResizerImpl } from "./Resizer";
+import { inject, injectable } from "tsyringe";
+import { UrlGenerator } from "../../common/UrlGenerator";
+import { ThumbnailGenerator } from "../ThumbnailGenerator";
+import { Resizer } from "../Resizer";
 
-export interface ThumbnailGenerator {
-    getThumbnail(blob: Blob): Promise<string>
-}
+import { TYPES } from "../../ioc/types";
 
 const THUMB_WIDTH = 300;
 const THUMB_HEIGHT = 300; 
 
+@injectable()
 export class ThumbnailGeneratorImpl implements ThumbnailGenerator {
 
-    private readonly resizer: Resizer = new ResizerImpl();
-    private readonly url: UrlGenerator = new UrlGeneratorImpl();
+    constructor(
+        @inject(TYPES.Resizer) private readonly resizer: Resizer,
+        @inject(TYPES.UrlGenerator) private readonly url: UrlGenerator
+    ) {}
 
     public async getThumbnail(input: File): Promise<string> {
         try {
