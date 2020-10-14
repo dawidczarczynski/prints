@@ -4,7 +4,7 @@ import { Navbar, NavbarBrand } from 'reactstrap';
 import { ImageService } from './core/image/ImageService';
 import { container, TYPES } from './core/ioc';
 
-import ImagesListView from './views/ImagesListView';
+import ImagesListView from './imagesList/ImagesListView';
 import './app.css';
 
 const imageService: ImageService = container.resolve<ImageService>(TYPES.ImageService);
