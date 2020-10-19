@@ -2,6 +2,7 @@ package com.dawidczarczynski.printsfiles.imageupload;
 
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
@@ -16,6 +17,7 @@ public class ImageUploadController {
         this.imageStorageService = imageStorageService;
     }
 
+    @CrossOrigin(origins = "http://localhost:3000")
     @PostMapping("/image")
     public ResponseEntity<String> handleImageUpload(@RequestParam("file") MultipartFile imageFile) {
         imageStorageService.storeImageFile(imageFile);
