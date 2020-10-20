@@ -4,6 +4,7 @@ export interface UploadProgressResult {
     currentItem: number;
     currentItemPercentProgress: number;
     currentItemName: string;
+    done: boolean;
 }
 
 export class UploadProgress {
@@ -21,16 +22,21 @@ export class UploadProgress {
 
     public getUploadProgress(currentItemPercentProgress: number, currentItemName: string): UploadProgressResult {
         return {
-            totalItems: this.totalItems,
-            currentItem: this.currentItem,
-            totalPercentProgress: this.countTotalPercentProgress(),
             currentItemName,
-            currentItemPercentProgress
+            currentItemPercentProgress,
+            currentItem: this.currentItem,
+            totalItems: this.totalItems,
+            totalPercentProgress: this.countTotalPercentProgress(),
+            done: this.checkIfDone(currentItemPercentProgress)
         }
     }
 
     private countTotalPercentProgress(): number {
         return Math.round((this.currentItem / this.totalItems) * 100);
+    }
+
+    private checkIfDone(currentProgress: number) {
+        return this.currentItem === this.totalItems && currentProgress === 100;
     }
 
 }

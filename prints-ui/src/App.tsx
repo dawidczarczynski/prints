@@ -14,7 +14,7 @@ const imageService: ImageService = container.resolve<ImageService>(TYPES.ImageSe
 function App() {
   return (
     <>
-        <Navbar color="light" light expand="md">
+        <Navbar color="light" light expand="md" className="d-flex justify-content-between">
           <NavbarBrand href="/">Prints UI</NavbarBrand>
           <Upload imageService={imageService}></Upload>
         </Navbar>
