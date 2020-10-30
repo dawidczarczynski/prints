@@ -1,4 +1,4 @@
-package com.dawidczarczynski.printsfiles.imageupload;
+package com.dawidczarczynski.printsfiles.service;
 
 import org.springframework.web.multipart.MultipartFile;
 

@@ -1,8 +1,7 @@
-package com.dawidczarczynski.printsfiles.imageupload.impl;
+package com.dawidczarczynski.printsfiles.service.impl;
 
 import com.dawidczarczynski.printsfiles.exceptions.ImageSavingException;
-import com.dawidczarczynski.printsfiles.imageupload.FileConverter;
-import com.dawidczarczynski.printsfiles.imageupload.ImageStorageService;
+import com.dawidczarczynski.printsfiles.service.ImageStorageService;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
@@ -13,7 +12,7 @@ import software.amazon.awssdk.services.s3.S3Client;
 import software.amazon.awssdk.services.s3.model.PutObjectRequest;
 import software.amazon.awssdk.services.s3.model.S3Exception;
 
-import java.io.File;
+import java.io.BufferedInputStream;
 import java.io.IOException;
 
 @Service
@@ -22,16 +21,13 @@ class S3StorageServiceImpl implements ImageStorageService {
 
     private final S3Client s3Client;
     private final String awsS3ImagesBucket;
-    private final FileConverter converter;
 
     public S3StorageServiceImpl(
             Region awsRegion,
             StaticCredentialsProvider awsCredentialsProvider,
-            String awsS3ImagesBucket,
-            FileConverter converter
+            String awsS3ImagesBucket
     ) {
         this.awsS3ImagesBucket = awsS3ImagesBucket;
-        this.converter = converter;
         this.s3Client = S3Client.builder()
                 .region(awsRegion)
                 .credentialsProvider(awsCredentialsProvider)
@@ -41,14 +37,11 @@ class S3StorageServiceImpl implements ImageStorageService {
     @Override
     public void storeImageFile(MultipartFile file) {
         try {
-            File convertedFile = converter.multipartToFile(file);
-            PutObjectRequest request = PutObjectRequest.builder()
-                    .bucket(awsS3ImagesBucket)
-                    .key(convertedFile.getName())
-                    .build();
+            PutObjectRequest request = getS3Request(file.getOriginalFilename());
+            RequestBody requestBody = getS3RequestBody(file);
+            s3Client.putObject(request, requestBody);
 
-            s3Client.putObject(request, RequestBody.fromFile(convertedFile));
-            log.info(convertedFile.getName() + " saved successfully");
+            log.info(file.getName() + " saved successfully");
         } catch (IOException exception) {
             log.error("Error when converting multipart file");
             exception.printStackTrace();
@@ -60,6 +53,20 @@ class S3StorageServiceImpl implements ImageStorageService {
 
             throw new ImageSavingException();
         }
+    }
+
+    private PutObjectRequest getS3Request(String fileName) {
+        return PutObjectRequest.builder()
+                .bucket(awsS3ImagesBucket)
+                .key(fileName)
+                .build();
+    }
+
+    private RequestBody getS3RequestBody(MultipartFile file) throws IOException {
+        return RequestBody.fromInputStream(
+                new BufferedInputStream(file.getInputStream()),
+                file.getSize()
+        );
     }
 
 }
