@@ -12,7 +12,7 @@ import { TYPES } from "../../ioc/types";
 @injectable()
 export class ImageUploaderImpl implements ImageUploader {
 
-    private readonly uploadUrl = 'http://localhost:8080/image';
+    private readonly uploadUrl = 'http://localhost:8080/api/image';
     private readonly uploadProgress = new UploadProgress();
 
     constructor(
