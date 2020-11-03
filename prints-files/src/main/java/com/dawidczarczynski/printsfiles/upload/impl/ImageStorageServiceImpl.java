@@ -1,8 +1,8 @@
-package com.dawidczarczynski.printsfiles.service.impl;
+package com.dawidczarczynski.printsfiles.upload.impl;
 
-import com.dawidczarczynski.printsfiles.exceptions.ImageSavingException;
-import com.dawidczarczynski.printsfiles.service.ImageBucketClient;
-import com.dawidczarczynski.printsfiles.service.ImageStorageService;
+import com.dawidczarczynski.printsfiles.upload.ImageSavingException;
+import com.dawidczarczynski.printsfiles.upload.ImageBucketClient;
+import com.dawidczarczynski.printsfiles.upload.ImageStorageService;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;

@@ -1,4 +1,4 @@
-package com.dawidczarczynski.printsfiles.exceptions;
+package com.dawidczarczynski.printsfiles.upload;
 
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.ResponseStatus;

@@ -1,6 +1,4 @@
-package com.dawidczarczynski.printsfiles.controller;
-
-import com.dawidczarczynski.printsfiles.service.ImageStorageService;
+package com.dawidczarczynski.printsfiles.upload;
 
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;

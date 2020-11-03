@@ -1,7 +1,7 @@
 package com.dawidczarczynski.printsfiles.s3;
 
-import com.dawidczarczynski.printsfiles.exceptions.ImageSavingException;
-import com.dawidczarczynski.printsfiles.service.ImageBucketClient;
+import com.dawidczarczynski.printsfiles.upload.ImageSavingException;
+import com.dawidczarczynski.printsfiles.upload.ImageBucketClient;
 import org.springframework.stereotype.Component;
 import org.springframework.web.multipart.MultipartFile;
 import software.amazon.awssdk.auth.credentials.StaticCredentialsProvider;
